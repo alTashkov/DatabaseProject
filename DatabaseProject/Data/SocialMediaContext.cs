@@ -43,17 +43,17 @@ namespace DatabaseProject.Data
 
             //one to many
             modelBuilder.Entity<Friendship>()
-                .HasOne(u => u.User1)
-                .WithMany(f => f.FriendshipsInitiated)
-                .HasForeignKey(u => u.UserID1)
+                .HasOne(f => f.User1)
+                .WithMany(u => u.FriendshipsInitiated)
+                .HasForeignKey(f => f.UserID1)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
             //one to many
             modelBuilder.Entity<Friendship>()
-                .HasOne(u => u.User2)
-                .WithMany(f => f.FriendshipsReceived)
-                .HasForeignKey(u => u.UserID2)
+                .HasOne(f => f.User2)
+                .WithMany(u=> u.FriendshipsReceived)
+                .HasForeignKey(f => f.UserID2)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //one to many
@@ -64,8 +64,8 @@ namespace DatabaseProject.Data
 
             //one to one
             modelBuilder.Entity<User>()
-                .HasOne(p => p.Profile)
-                .WithOne(u => u.User)
+                .HasOne(u => u.Profile)
+                .WithOne(p => p.User)
                 .HasForeignKey<Profile>(p => p.UserId);
 
             //many to many
