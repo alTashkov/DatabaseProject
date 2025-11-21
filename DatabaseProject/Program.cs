@@ -1,5 +1,9 @@
-﻿using DatabaseProject.Data;
+﻿using Autofac;
+using DatabaseProject.Data;
 using DatabaseProject.Models;
+using DatabaseProject.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace DatabaseProject
 {
@@ -7,38 +11,47 @@ namespace DatabaseProject
     {
         static void Main(string[] args)
         {
-            using (var context = new SocialMediaContext())
+            var container = ContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope()) 
             {
-                context.Database.EnsureCreated();
-             
-                var user1 = new User() { Username = "alextashkov", Email = "alextashkov@gmail.com"};
-                context.Users.Add(user1);
-                context.SaveChanges();
+                    var context = scope.Resolve<SocialMediaContext>();
+                    context.Database.Migrate();
 
-                var profile1 = new Profile() { UserId = user1.UserId, Bio = "Test bio for user1"};
-                context.Profiles.Add(profile1);
-                context.SaveChanges();
+                    string jsonPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\users.json";
+                    var jsonService = scope.Resolve<JsonFileService<User>>();
+                    List<User> users = jsonService.ReadData(jsonPath);
+                    if (users == null || users.Count == 0)
+                    {
+                        Console.WriteLine("No data found in JSON.");
+                        return;
+                    }
 
-                var post1 = new Post() { Content = "Test poster", UserId = user1.UserId, User = user1 };
-                context.Posts.Add(post1);
-                context.SaveChanges();
+                    var filteredUsers = context.Users
+                        .Where(u => u.Username!.ToLower().StartsWith("a"))
+                        .ToList();
+                    var outputPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\usersOutputAgain.json";
+                    jsonService.WriteData(outputPath, filteredUsers);
 
-                foreach (var u in context.Users)
-                {
-                    Console.WriteLine($"Username: {u.Username}, Email: {u.Email}");
-                }
+                    var bulkInsertService = scope.Resolve<BulkInsertService<User>>();
+                    bulkInsertService.InsertInBatches(users, 10);
 
-                foreach (var p in context.Posts)
-                {
-                    Console.WriteLine($"Content: {p.Content}");
-                }
+                    foreach (var u in context.Users)
+                    {
+                        Console.WriteLine($"Username: {u.Username}, Email: {u.Email}");
+                    }
 
-                foreach (var p in context.Profiles)
-                {
-                    Console.WriteLine($"Profile1: {p.Bio}");
-                }
+                    foreach (var p in context.Posts)
+                    {
+                        Console.WriteLine($"Content: {p.Content}");
+                    }
 
-                Console.ReadLine();
+                    foreach (var p in context.Profiles)
+                    {
+                        Console.WriteLine($"Profile1: {p.Bio}");
+                    }
+
+                    Console.ReadLine();
             }
         }
     }

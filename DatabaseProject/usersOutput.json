@@ -1,0 +1,79 @@
+[
+  {
+    "UserId": 1,
+    "Username": "alextashkov",
+    "Email": "alextashkov@gmail.com",
+    "Password": "",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 2,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 3,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 4,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 5,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 6,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 7,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  }
+]
