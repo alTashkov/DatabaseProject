@@ -22,7 +22,6 @@ namespace DatabaseProject.Services
             }
 
             var filteredEntities = query.ToList();
-
             jsonFileService.WriteDataToFile(outputJsonPath, filteredEntities);
         }
     }
