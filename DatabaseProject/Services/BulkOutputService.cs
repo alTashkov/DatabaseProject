@@ -12,7 +12,7 @@ namespace DatabaseProject.Services
             _context = context;
         }
 
-        public void OutputFilteredDataToFile(JsonFileService<T> jsonFileService,string outputJsonPath, Expression<Func<T, bool>> filter = null)
+        public void OutputFilteredDataToFile(JsonFileService<T> jsonFileService, string outputJsonPath, Expression<Func<T, bool>> filter = null)
         {
             IQueryable<T> query = _context.Set<T>();
 

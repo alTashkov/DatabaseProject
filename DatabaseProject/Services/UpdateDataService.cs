@@ -13,7 +13,7 @@ namespace DatabaseProject.Services
             _context = context;
         }
 
-        public void UpdateEntityData<TKey>(TKey entityId,string propertyValue, string property)
+        public void UpdateEntityData<TKey>(TKey entityId, string propertyValue, string property)
         {
             var entity = _context.Set<T>().Find(entityId);
 

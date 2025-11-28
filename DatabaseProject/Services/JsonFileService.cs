@@ -8,7 +8,7 @@ namespace DatabaseProject.Services
     {
         private static string SerializeData(List<T> data)
         {
-            var serializedData = JsonSerializer.Serialize<List<T>>(data, new JsonSerializerOptions { WriteIndented = true });
+            var serializedData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
             return serializedData;
         }
 
