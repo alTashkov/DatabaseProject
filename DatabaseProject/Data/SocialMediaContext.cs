@@ -6,15 +6,10 @@ namespace DatabaseProject.Data
     public class SocialMediaContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-
         public DbSet<Post> Posts { get; set; }
-
         public DbSet<Comment> Comments { get; set; }
-
         public DbSet<Friendship> Friendships { get; set; }
-
         public DbSet<Group> Groups { get; set; }
-
         public DbSet<Profile> Profiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

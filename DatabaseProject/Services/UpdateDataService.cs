@@ -16,7 +16,6 @@ namespace DatabaseProject.Services
         public void UpdateEntityData<TKey>(TKey entityId, string propertyValue, string property)
         {
             var entity = _context.Set<T>().Find(entityId);
-
             if (entity == null)
             {
                 throw new ArgumentException($"No entity was found with id = {entityId}.");
