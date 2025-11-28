@@ -1,8 +1,8 @@
 [
   {
-    "UserId": 8,
-    "Username": "altashkovUPDATED",
-    "Email": "altashkov@gmail.com",
+    "UserId": 9,
+    "Username": "UPDATED_tashkovID9",
+    "Email": "tashkovID9@gmail.com",
     "Password": "testpassword",
     "Profile": null,
     "Comments": [],
@@ -78,6 +78,17 @@
   },
   {
     "UserId": 16,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
+  },
+  {
+    "UserId": 17,
     "Username": "altashkov2",
     "Email": "altashko@gmail.com",
     "Password": "testpassword",

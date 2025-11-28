@@ -1,27 +1,41 @@
 ﻿using DatabaseProject.Models;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace DatabaseProject.Services
 {
     public class JsonFileService<T>
     {
-        public List<T>? ReadData(string jsonPath)
+        private static string SerializeData(List<T> data)
+        {
+            var serializedData = JsonSerializer.Serialize<List<T>>(data, new JsonSerializerOptions { WriteIndented = true });
+            return serializedData;
+        }
+
+        private static List<T>? DeserializeData(string jsonContent)
+        {
+            var deserializedData = JsonSerializer.Deserialize<List<T>>(jsonContent);
+            return deserializedData;
+        }
+
+        public List<T>? ReadDataFromFile(string jsonPath)
         {
             if (!File.Exists(jsonPath))
             {
+                Console.WriteLine($"No file exists with given path: {jsonPath}");
                 return null;
             }
 
             string jsonContent = File.ReadAllText(jsonPath);
-            var serializedData = JsonSerializer.Deserialize<List<T>>(jsonContent);
+            List<T> data = DeserializeData(jsonContent);
 
-            return serializedData;
+            return data;
         }
 
-        public void WriteData(string outputJsonPath, List<T> data)
+        public void WriteDataToFile(string outputJsonPath, List<T> data)
         {
-            string jsonContent = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(outputJsonPath, jsonContent);
+            var serializedData = SerializeData(data);
+            File.WriteAllText(outputJsonPath, serializedData);
         }
     }
 }

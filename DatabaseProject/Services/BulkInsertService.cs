@@ -10,6 +10,7 @@ namespace DatabaseProject.Services
         {
             _context = context;
         }
+
         public void InsertInBatches(List<T> entities, int batchSize = 10)
         {
             for (int i = 0; i < entities.Count; i += batchSize)
