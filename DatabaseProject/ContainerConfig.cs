@@ -10,7 +10,7 @@ namespace DatabaseProject
         {
             var builder = new ContainerBuilder();
 
-            // Register DbContext and generic helper service
+            // Register database context and generic helper service
             builder.RegisterType<SocialMediaContext>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(JsonFileService<>)).AsSelf().InstancePerLifetimeScope();
 

@@ -53,23 +53,6 @@ namespace DatabaseProject
                     entityId = 15;
                     deleteDataService.DeleteEntityData(entityId);
                     Console.WriteLine("Entity was removed successfully!");
-
-                    foreach (var u in context.Users)
-                        {
-                        Console.WriteLine($"Username: {u.Username}, Email: {u.Email}");
-                    }
-
-                    foreach (var p in context.Posts)
-                    {
-                        Console.WriteLine($"Content: {p.Content}");
-                    }
-
-                    foreach (var p in context.Profiles)
-                    {
-                        Console.WriteLine($"Profile1: {p.Bio}");
-                    }
-
-                    Console.ReadLine();
             }
         }
     }
