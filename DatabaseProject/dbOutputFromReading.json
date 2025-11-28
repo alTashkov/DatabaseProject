@@ -141,5 +141,16 @@
     "Posts": [],
     "FriendshipsInitiated": [],
     "FriendshipsReceived": []
+  },
+  {
+    "UserId": 23,
+    "Username": "altashkov2",
+    "Email": "altashko@gmail.com",
+    "Password": "testpassword",
+    "Profile": null,
+    "Comments": [],
+    "Posts": [],
+    "FriendshipsInitiated": [],
+    "FriendshipsReceived": []
   }
 ]

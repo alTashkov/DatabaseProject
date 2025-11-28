@@ -14,13 +14,24 @@ namespace DatabaseProject.Services
             _logger = logger;
         }
 
-        public bool UpdateEntityData<TKey>(TKey entityId, string propertyValue, string property)
+        /// <summary>
+        ///     Finds entity by primary key and changes its parameters based on given value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of primary key of the entity.s</typeparam>
+        /// <param name="primaryKey">The value of the primary key.</param>
+        /// <param name="propertyValue">The new value that will be assigned to the given property.</param>
+        /// <param name="property">The chosen property to perform changes to.</param>
+        /// <returns>
+        ///     <b>True</b> if the property of the entity was successfully alitered;<br></br>
+        ///     <b>False</b> if the entity with matching primary key was not found or no property was chosen.
+        /// </returns>
+        public bool UpdateEntityData<TKey>(TKey primaryKey, string propertyValue, string property)
         {
-            var entity = _context.Set<T>().Find(entityId);
+            var entity = _context.Set<T>().Find(primaryKey);
             if (entity == null)
             {
-                _logger.LogError("Entity of type {EntityType} with id {EntityId} was not found.",
-                typeof(T).Name, entityId);
+                _logger.LogError("Entity of type {EntityType} with primary key {PrimaryKey} was not found.",
+                typeof(T).Name, primaryKey);
 
                 return false;
             }
@@ -37,14 +48,14 @@ namespace DatabaseProject.Services
                     _context.SaveChanges();
 
                     _logger.LogInformation("Entity of type {EntityType} with id {EntityId} was successfully updated.",
-                    typeof(T).Name, entityId);
+                    typeof(T).Name, primaryKey);
 
                     return true;
                 }
                 else
                 {
                     _logger.LogError("Property of type {Property} with id {EntityId} was not found.",
-                     property, entityId);
+                     property, primaryKey);
 
                     return false;
                 }
