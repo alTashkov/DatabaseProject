@@ -1,9 +1,17 @@
-﻿using System.Text.Json;
+﻿using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace DatabaseProject.Services
 {
     public class JsonFileService<T>
     {
+        private readonly ILogger<JsonFileService<T>> _logger;
+
+        public JsonFileService(ILogger<JsonFileService<T>> logger)
+        {
+            _logger = logger;
+        }
+
         private static string SerializeData(List<T> data)
         {
             var serializedData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
@@ -20,7 +28,9 @@ namespace DatabaseProject.Services
         {
             if (!File.Exists(jsonPath))
             {
-                Console.WriteLine($"No file exists with given path: {jsonPath}");
+                _logger.LogError("File with path {FilePath} does not exist.",
+                jsonPath);
+
                 return null;
             }
 
@@ -30,10 +40,12 @@ namespace DatabaseProject.Services
             return data;
         }
 
-        public void WriteDataToFile(string outputJsonPath, List<T> data)
+        public bool WriteDataToFile(string outputJsonPath, List<T> data)
         {
             var serializedData = SerializeData(data);
             File.WriteAllText(outputJsonPath, serializedData);
+
+            return true;
         }
     }
 }

@@ -1,22 +1,28 @@
 ﻿using DatabaseProject.Data;
+using Microsoft.Extensions.Logging;
 
 namespace DatabaseProject.Services
 {
     public class UpdateDataService <T> where T : class
     {
         private readonly SocialMediaContext _context;
+        private readonly ILogger<UpdateDataService<T>> _logger;
 
-        public UpdateDataService(SocialMediaContext context)
+        public UpdateDataService(SocialMediaContext context, ILogger<UpdateDataService<T>> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        public void UpdateEntityData<TKey>(TKey entityId, string propertyValue, string property)
+        public bool UpdateEntityData<TKey>(TKey entityId, string propertyValue, string property)
         {
             var entity = _context.Set<T>().Find(entityId);
             if (entity == null)
             {
-                throw new ArgumentException($"No entity was found with id = {entityId}.");
+                _logger.LogError("Entity of type {EntityType} with id {EntityId} was not found.",
+                typeof(T).Name, entityId);
+
+                return false;
             }
 
             if (!(string.IsNullOrEmpty(property)))
@@ -29,11 +35,24 @@ namespace DatabaseProject.Services
 
                     propInfo.SetValue(entity, typedValue);
                     _context.SaveChanges();
+
+                    _logger.LogInformation("Entity of type {EntityType} with id {EntityId} was successfully updated.",
+                    typeof(T).Name, entityId);
+
+                    return true;
+                }
+                else
+                {
+                    _logger.LogError("Property of type {Property} with id {EntityId} was not found.",
+                     property, entityId);
+
+                    return false;
                 }
             }
             else
             {
-                throw new ArgumentException($"Property `{property}` does not exist for type `{typeof(T).Name}");
+                _logger.LogError("No property was chosen.");
+                return false;
             }
         }
     }

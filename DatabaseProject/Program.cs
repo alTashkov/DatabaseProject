@@ -22,7 +22,6 @@ namespace DatabaseProject
                     List<User> users = jsonService.ReadDataFromFile(jsonPath);
                     if (users == null || users.Count == 0)
                     {
-                        Console.WriteLine("No data found in JSON.");
                         return;
                     }
 
@@ -46,13 +45,11 @@ namespace DatabaseProject
                     int entityId = 9;
                     updateDataService.UpdateEntityData(entityId, "tashkovID9@gmail.com", "Email");
                     updateDataService.UpdateEntityData(entityId, "UPDATED_tashkovID9", "Username");
-                    Console.WriteLine("Entity data updated successfully!");
 
                     //Delete entity.
                     var deleteDataService = scope.Resolve<DeleteDataService<User>>();
                     entityId = 15;
                     deleteDataService.DeleteEntityData(entityId);
-                    Console.WriteLine("Entity was removed successfully!");
             }
         }
     }

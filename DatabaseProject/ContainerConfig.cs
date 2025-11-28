@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
 using DatabaseProject.Services;
+using Microsoft.Extensions.Logging;
 
 namespace DatabaseProject
 {
@@ -25,6 +26,16 @@ namespace DatabaseProject
 
             // Delete service
             builder.RegisterGeneric(typeof(DeleteDataService<>)).AsSelf().InstancePerLifetimeScope();
+            
+            // Logger factory
+            var loggerFactory = LoggerFactory.Create(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+            });
+
+            builder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
+            builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).SingleInstance();
 
             return builder.Build(); 
         }
