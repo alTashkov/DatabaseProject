@@ -3,16 +3,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DatabaseProject.Services
 {
-    public class BulkInsertService<T> where T : class
+    public class BulkInsertService<T> : IServiceWithLogger where T : class
     {
-        private readonly ILogger<BulkInsertService<T>> _logger;
-
         private readonly SocialMediaContext _context;
+
+        public ILogger Logger { get; }
 
         public BulkInsertService(SocialMediaContext context, ILogger<BulkInsertService<T>> logger)
         {
             _context = context;
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace DatabaseProject.Services
                 return true;
             }
 
-            _logger.LogInformation("Entities ({EntityCount}) were inserted in batches.", entities.Count);
+            Logger.LogInformation("Entities ({EntityCount}) were inserted in batches.", entities.Count);
             return true;
         }
     }

@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace DatabaseProject.Services
 {
-    public class JsonFileService<T>
+    public class JsonFileService<T> : IServiceWithLogger
     {
-        private readonly ILogger<JsonFileService<T>> _logger;
+        public ILogger Logger { get; }
 
         public JsonFileService(ILogger<JsonFileService<T>> logger)
         {
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace DatabaseProject.Services
         {
             if (!File.Exists(jsonPath))
             {
-                _logger.LogError("File with path {FilePath} does not exist.",
+                Logger.LogError("File with path {FilePath} does not exist.",
                 jsonPath);
 
                 return null;
@@ -78,7 +78,7 @@ namespace DatabaseProject.Services
             }
             else
             {
-                _logger.LogError("Data was not serialized successfully.");
+                Logger.LogError("Data was not serialized successfully.");
                 return false;
             }
         }

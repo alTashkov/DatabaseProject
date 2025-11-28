@@ -3,15 +3,16 @@ using Microsoft.Extensions.Logging;
 
 namespace DatabaseProject.Services
 {
-    public class UpdateDataService <T> where T : class
+    public class UpdateDataService<T> : IServiceWithLogger where T : class
     {
         private readonly SocialMediaContext _context;
-        private readonly ILogger<UpdateDataService<T>> _logger;
+        
+        public ILogger Logger { get; }
 
         public UpdateDataService(SocialMediaContext context, ILogger<UpdateDataService<T>> logger)
         {
             _context = context;
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace DatabaseProject.Services
             var entity = _context.Set<T>().Find(primaryKey);
             if (entity == null)
             {
-                _logger.LogError("Entity of type {EntityType} with primary key {PrimaryKey} was not found.",
+                Logger.LogError("Entity of type {EntityType} with primary key {PrimaryKey} was not found.",
                 typeof(T).Name, primaryKey);
 
                 return false;
@@ -47,14 +48,14 @@ namespace DatabaseProject.Services
                     propInfo.SetValue(entity, typedValue);
                     _context.SaveChanges();
 
-                    _logger.LogInformation("Entity of type {EntityType} with id {EntityId} was successfully updated.",
+                    Logger.LogInformation("Entity of type {EntityType} with id {EntityId} was successfully updated.",
                     typeof(T).Name, primaryKey);
 
                     return true;
                 }
                 else
                 {
-                    _logger.LogError("Property of type {Property} with id {EntityId} was not found.",
+                    Logger.LogError("Property of type {Property} with id {EntityId} was not found.",
                      property, primaryKey);
 
                     return false;
@@ -62,7 +63,7 @@ namespace DatabaseProject.Services
             }
             else
             {
-                _logger.LogError("No property was chosen.");
+                Logger.LogError("No property was chosen.");
                 return false;
             }
         }

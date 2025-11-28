@@ -4,15 +4,15 @@ using System.Linq.Expressions;
 
 namespace DatabaseProject.Services
 {
-    public class BulkOutputService<T> where T : class
+    public class BulkOutputService<T> : IServiceWithLogger where T : class
     {
         private readonly SocialMediaContext _context;
-        private readonly ILogger<BulkOutputService<T>> _logger;
+        public ILogger Logger { get; }
 
         public BulkOutputService(SocialMediaContext context, ILogger<BulkOutputService<T>> logger) 
         {
             _context = context;
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace DatabaseProject.Services
 
                 if (jsonFileService.WriteDataToFile(outputJsonPath, filteredEntities))
                 {
-                    _logger.LogInformation("Entity of type {EntityType} was successfully written to {FilePath}.",
+                    Logger.LogInformation("Entity of type {EntityType} was successfully written to {FilePath}.",
                     typeof(T).Name, outputJsonPath);
                     return true;
                 }
@@ -47,7 +47,7 @@ namespace DatabaseProject.Services
             }
             else
             {
-                _logger.LogError("Filter must be chosen.");
+                Logger.LogError("Filter must be chosen.");
                 return false;
             }
         }
