@@ -1,6 +1,4 @@
 ﻿using DatabaseProject.Data;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace DatabaseProject.Services
 {

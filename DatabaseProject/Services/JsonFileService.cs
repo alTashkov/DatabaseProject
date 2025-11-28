@@ -1,6 +1,4 @@
-﻿using DatabaseProject.Models;
-using System.Net.Http.Json;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace DatabaseProject.Services
 {

@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
-using DatabaseProject.Models;
 using DatabaseProject.Services;
 
 namespace DatabaseProject

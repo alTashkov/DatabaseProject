@@ -3,7 +3,6 @@ using DatabaseProject.Data;
 using DatabaseProject.Models;
 using DatabaseProject.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace DatabaseProject
 {
