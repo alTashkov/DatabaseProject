@@ -31,22 +31,22 @@ namespace DatabaseProject
                     var outputPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\usersOutputAgain.json";
                     jsonService.WriteDataToFile(outputPath, filteredUsers);
 
-                    //Bulk insert data to database.
+                    // Bulk insert data to database.
                     var bulkInsertService = scope.Resolve<BulkInsertService<User>>();
                     bulkInsertService.InsertInBatches(users, 10);
 
-                    //Read and output to file.
+                    // Read and output to file.
                     var bulkOutputService = scope.Resolve<BulkOutputService<User>>();
                     string jsonPathReadOutput = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\dbOutputFromReading.json";
                     bulkOutputService.OutputFilteredDataToFile(jsonService, jsonPathReadOutput, u => u.UserId > 8);
 
-                    //Update data of entity.
+                    // Update data of entity.
                     var updateDataService = scope.Resolve<UpdateDataService<User>>();
                     int entityId = 9;
                     updateDataService.UpdateEntityData(entityId, "tashkovID9@gmail.com", "Email");
                     updateDataService.UpdateEntityData(entityId, "UPDATED_tashkovID9", "Username");
 
-                    //Delete entity.
+                    // Delete entity.
                     var deleteDataService = scope.Resolve<DeleteDataService<User>>();
                     entityId = 15;
                     deleteDataService.DeleteEntityData(entityId);
