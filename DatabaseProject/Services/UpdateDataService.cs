@@ -1,5 +1,6 @@
 ﻿using DatabaseProject.Data;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace DatabaseProject.Services
 {
@@ -39,7 +40,7 @@ namespace DatabaseProject.Services
 
             if (!(string.IsNullOrEmpty(property)))
             {
-                var propInfo = typeof(T).GetProperty(property);
+                var propInfo = typeof(T).GetProperty(property, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
                 if (propInfo != null)
                 {
@@ -48,14 +49,14 @@ namespace DatabaseProject.Services
                     propInfo.SetValue(entity, typedValue);
                     _context.SaveChanges();
 
-                    Logger.LogInformation("Entity of type {EntityType} with id {EntityId} was successfully updated.",
+                    Logger.LogInformation("Entity of type {EntityType} with primary key {PrimaryKey} was successfully updated.",
                     typeof(T).Name, primaryKey);
 
                     return true;
                 }
                 else
                 {
-                    Logger.LogError("Property of type {Property} with id {EntityId} was not found.",
+                    Logger.LogError("Property of type {Property} with primary key {PrimaryKey} was not found.",
                      property, primaryKey);
 
                     return false;

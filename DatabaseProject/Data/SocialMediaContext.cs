@@ -22,21 +22,21 @@ namespace DatabaseProject.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //one to many
+            // one to many
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //one to many
+            // one to many
             modelBuilder.Entity<Comment>()
                 .HasOne(p => p.Post)
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //one to many
+            // one to many
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User1)
                 .WithMany(u => u.FriendshipsInitiated)
@@ -44,26 +44,26 @@ namespace DatabaseProject.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
 
-            //one to many
+            // one to many
             modelBuilder.Entity<Friendship>()
                 .HasOne(f => f.User2)
                 .WithMany(u=> u.FriendshipsReceived)
                 .HasForeignKey(f => f.UserID2)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //one to many
+            // one to many
             modelBuilder.Entity<Post>()
                 .HasOne(u => u.User)
                 .WithMany(p => p.Posts)
                 .HasForeignKey(u => u.UserId);
 
-            //one to one
+            // one to one
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Profile)
                 .WithOne(p => p.User)
                 .HasForeignKey<Profile>(p => p.UserId);
 
-            //many to many
+            // many to many
             modelBuilder.Entity<User>()
                 .HasMany(g => g.Groups)
                 .WithMany(u => u.Users)
