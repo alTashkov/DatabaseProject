@@ -14,40 +14,40 @@ namespace DatabaseProject
 
             using (var scope = container.BeginLifetimeScope()) 
             {
-                var context = scope.Resolve<SocialMediaContext>();
+                SocialMediaContext context = scope.Resolve<SocialMediaContext>();
                 context.Database.Migrate();
 
                 string jsonPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\users.json";
-                var jsonService = scope.Resolve<JsonFileService<User>>();
+                JsonFileService<User> jsonService = scope.Resolve<JsonFileService<User>>();
                 List<User> users = jsonService.ReadDataFromFile(jsonPath);
                 if (users == null || users.Count == 0)
                 {
                     return;
                 }
 
-                var filteredUsers = context.Users
+                List<User> filteredUsers = context.Users
                     .Where(u => u.Username!.ToLower().StartsWith("a"))
                     .ToList();
-                var outputPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\usersOutputAgain.json";
+                string outputPath = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\usersOutputAgain.json";
                 jsonService.WriteDataToFile(outputPath, filteredUsers);
 
                 // Bulk insert data to database.
-                var bulkInsertService = scope.Resolve<BulkInsertService<User>>();
+                BulkInsertService<User> bulkInsertService = scope.Resolve<BulkInsertService<User>>();
                 bulkInsertService.InsertInBatches(users, 10);
 
                 // Read and output to file.
-                var bulkOutputService = scope.Resolve<BulkOutputService<User>>();
+                BulkOutputService<User> bulkOutputService = scope.Resolve<BulkOutputService<User>>();
                 string jsonPathReadOutput = "D:\\tempExercises\\DatabaseProject\\DatabaseProject\\dbOutputFromReading.json";
                 bulkOutputService.OutputFilteredDataToFile(jsonService, jsonPathReadOutput, u => u.UserId > 8);
 
                 // Update data of entity.
-                var updateDataService = scope.Resolve<UpdateDataService<User>>();
+                UpdateDataService<User> updateDataService = scope.Resolve<UpdateDataService<User>>();
                 int entityId = 9;
                 updateDataService.UpdateEntityData(entityId, "tashkovID9@gmail.com", "Email");
                 updateDataService.UpdateEntityData(entityId, "UPDATED_tashkovID9", "Username");
 
                 // Delete entity.
-                var deleteDataService = scope.Resolve<DeleteDataService<User>>();
+                DeleteDataService<User> deleteDataService = scope.Resolve<DeleteDataService<User>>();
                 entityId = 15;
                 deleteDataService.DeleteEntityData(entityId);
             }
