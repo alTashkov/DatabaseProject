@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
 using DatabaseProject.Helpers;
-using DatabaseProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseProject

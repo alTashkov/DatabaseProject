@@ -54,7 +54,7 @@ namespace DatabaseProject.Services
             }
 
             string jsonContent = File.ReadAllText(jsonPath);
-            List<T> data = DeserializeData(jsonContent);
+            List<T>? data = DeserializeData(jsonContent);
 
             return data;
         }

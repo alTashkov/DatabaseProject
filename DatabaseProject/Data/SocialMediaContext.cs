@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DatabaseProject.Models;
+using System.Configuration;
+
 
 namespace DatabaseProject.Data
 {
@@ -16,8 +18,11 @@ namespace DatabaseProject.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server = P3RKZmqBEGRNShe\\SQLEXPRESS;Database = DatabaseProject;Trusted_Connection = True;TrustServerCertificate=True;");
+                string connString = ConfigurationManager.ConnectionStrings["DatabaseProject"].ConnectionString;
+
+                optionsBuilder.UseSqlServer(connString);
             }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
