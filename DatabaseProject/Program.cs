@@ -45,27 +45,21 @@ namespace DatabaseProject
                                     {
                                         Console.WriteLine($"Processing entity type {char.ToUpper(normalizedEntityType[0]) + 
                                             normalizedEntityType.Substring(1)}");
-                                        
-                                        switch (insertEntityType?.Trim().ToLower())
+
+                                        var entityTypeInsert = entityTypes.FirstOrDefault(e => e.ClrType.Name.Equals
+                                            (normalizedEntityType, StringComparison.OrdinalIgnoreCase));
+
+                                        if (entityTypeInsert != null)
                                         {
-                                            case "user":
-                                                DataProcessor.Insert<User>(scope, inputFilePath);
-                                                break;
-                                            case "post":
-                                                DataProcessor.Insert<Post>(scope, inputFilePath);
-                                                break;
-                                            case "comment":
-                                                DataProcessor.Insert<Comment>(scope, inputFilePath);
-                                                break;
-                                            case "friendship":
-                                                DataProcessor.Insert<Friendship>(scope, inputFilePath);
-                                                break;
-                                            case "group":
-                                                DataProcessor.Insert<Group>(scope, inputFilePath);
-                                                break;
-                                            case "profile":
-                                                DataProcessor.Insert<Profile>(scope, inputFilePath);
-                                                break;
+                                            var clrType = entityTypeInsert.ClrType;
+                                            var method = typeof(DataProcessor).GetMethod("Insert")!
+                                                .MakeGenericMethod(clrType);
+
+                                            method.Invoke(null, new object[] { scope, inputFilePath });
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Entity type not found in model.");
                                         }
                                     }
                                 }
@@ -74,7 +68,7 @@ namespace DatabaseProject
                             {
                                 Console.WriteLine("File path must be entered to continue operation!");
                             }
-                            break;
+                        break;
 
                         case 2:
                             Console.WriteLine("\nOPERATION: Read");
@@ -99,26 +93,19 @@ namespace DatabaseProject
                                         Console.WriteLine($"Processing entity type {char.ToUpper(normalizedEntityType[0]) +
                                             normalizedEntityType.Substring(1)}");
 
-                                        switch (readEntityType?.Trim().ToLower())
+                                        var entityTypeRead = entityTypes.FirstOrDefault(e => e.ClrType.Name.Equals
+                                            (normalizedEntityType, StringComparison.OrdinalIgnoreCase));
+
+                                        if (entityTypeRead != null)
                                         {
-                                            case "user":
-                                                DataProcessor.Read<User>(scope, outputFilePath);
-                                                break;
-                                            case "post":
-                                                DataProcessor.Read<Post>(scope, outputFilePath);
-                                                break;
-                                            case "comment":
-                                                DataProcessor.Read<Comment>(scope, outputFilePath);
-                                                break;
-                                            case "friendship":
-                                                DataProcessor.Read<Friendship>(scope, outputFilePath);
-                                                break;
-                                            case "group":
-                                                DataProcessor.Read<Group>(scope, outputFilePath);
-                                                break;
-                                            case "profile":
-                                                DataProcessor.Read<Profile>(scope, outputFilePath);
-                                                break;
+                                            var clrType = entityTypeRead.ClrType;
+                                            var method = typeof(DataProcessor).GetMethod("Read")!.MakeGenericMethod(clrType);
+
+                                            method.Invoke(null, new object[] { scope, outputFilePath });
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Entity type not found in model.");
                                         }
                                     }
                                 }
@@ -127,7 +114,7 @@ namespace DatabaseProject
                             {
                                 Console.WriteLine("File path must be entered to continue operation!");
                             }
-                            break;
+                        break;
 
                         case 3:
                             Console.WriteLine("\nOPERATION: Update");
@@ -190,7 +177,6 @@ namespace DatabaseProject
 
                                         if (propertyValue != null)
                                         {
-                                            // Dynamically call DataProcessor.Update<T, TKey>
                                             var method = typeof(DataProcessor).GetMethod("Update");
                                             var genericMethod = method.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
 
@@ -206,7 +192,7 @@ namespace DatabaseProject
                                     Console.WriteLine($"Entity type '{entityType}' not found in the model.");
                                 }
                             }
-                            break;
+                        break;
 
                         case 4:
                             Console.WriteLine("\nOPERATION: Delete");
@@ -250,7 +236,6 @@ namespace DatabaseProject
                                         break;
                                     }
 
-                                    // Dynamically call DataProcessor.Delete<T, TKey>
                                     var method = typeof(DataProcessor).GetMethod("Delete");
                                     var genericMethod = method.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
 
@@ -258,13 +243,13 @@ namespace DatabaseProject
 
                                     Console.WriteLine($"{char.ToUpper(normalizedEntityType[0]) +
                                         normalizedEntityType.Substring(1)} with key {parsedKey} deleted successfully.");
-                                    }
                                 }
-                                else
-                                {
-                                    Console.WriteLine($"Entity type '{deleteEntityType}' not found in the model.");
-                                }
-                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Entity type '{deleteEntityType}' not found in the model.");
+                            }
+                        break;
                     }
                 }
             }
