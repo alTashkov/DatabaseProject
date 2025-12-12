@@ -1,32 +1,50 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
+using DatabaseProject.Interfaces;
 using DatabaseProject.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Xml.Serialization;
+using System.Configuration;
 
 namespace DatabaseProject
 {
     public static class ContainerConfig
     {
-        public static IContainer Configure()
+        public static void Configure(ContainerBuilder builder)
         {
-            var builder = new ContainerBuilder();
+            // Register database context
+            builder.Register(c =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<SocialMediaContext>();
+                optionsBuilder.UseSqlServer(
+                    ConfigurationManager.ConnectionStrings["DatabaseProject"].ConnectionString);
+                return new SocialMediaContext(optionsBuilder.Options);
+            })
+            .AsSelf()
+            .InstancePerLifetimeScope();
 
-            // Register database context and generic helper service
-            builder.RegisterType<SocialMediaContext>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(JsonFileService<>)).AsSelf().InstancePerLifetimeScope();
+            // Register services as interfaces
+            builder.RegisterGeneric(typeof(JsonFileService<>))
+               .As(typeof(IJsonProcessor<>))
+               .InstancePerLifetimeScope();
 
-            // Create service
-            builder.RegisterGeneric(typeof(BulkInsertService<>)).AsSelf().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(BulkInsertService<>))
+                   .As(typeof(IBulkInserter<>))
+                   .InstancePerLifetimeScope();
 
-            // Read service
-            builder.RegisterGeneric(typeof(BulkOutputService<>)).AsSelf().InstancePerLifetimeScope();
-            
-            // Update service
-            builder.RegisterGeneric(typeof(UpdateDataService<>)).AsSelf().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(BulkOutputService<>))
+                   .As(typeof(IBulkOutputter<>))
+                   .InstancePerLifetimeScope();
 
-            // Delete service
-            builder.RegisterGeneric(typeof(DeleteDataService<>)).AsSelf().InstancePerLifetimeScope();
-            
+            builder.RegisterGeneric(typeof(UpdateDataService<>))
+                   .As(typeof(IDataUpdater<>))
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(DeleteDataService<>))
+                   .As(typeof(IDataDeleter<>))
+                   .InstancePerLifetimeScope();
+
             // Logger factory
             var loggerFactory = LoggerFactory.Create(logging =>
             {
@@ -36,8 +54,6 @@ namespace DatabaseProject
 
             builder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
             builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).SingleInstance();
-
-            return builder.Build(); 
         }
     }
 }

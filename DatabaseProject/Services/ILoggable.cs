@@ -2,7 +2,7 @@
 
 namespace DatabaseProject.Services
 {
-    public interface IServiceWithLogger
+    public interface ILoggable
     {
         protected ILogger Logger { get; }
     }

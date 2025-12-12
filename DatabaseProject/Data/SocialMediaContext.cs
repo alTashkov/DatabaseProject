@@ -14,6 +14,8 @@ namespace DatabaseProject.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<Profile> Profiles { get; set; }
 
+        public SocialMediaContext(DbContextOptions<SocialMediaContext> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -22,7 +24,6 @@ namespace DatabaseProject.Data
 
                 optionsBuilder.UseSqlServer(connString);
             }
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

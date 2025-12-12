@@ -1,10 +1,11 @@
 ﻿using DatabaseProject.Data;
+using DatabaseProject.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace DatabaseProject.Services
 {
-    public class BulkOutputService<T> : IServiceWithLogger where T : class
+    public class BulkOutputService<T> : IBulkOutputter<T>, ILoggable where T : class
     {
         private readonly SocialMediaContext _context;
         public ILogger Logger { get; }
@@ -15,9 +16,6 @@ namespace DatabaseProject.Services
             Logger = logger;
         }
 
-        /// <summary>
-        /// Filters data based on a given expression and writes it to a new file.
-        /// </summary>
         /// <param name="jsonFileService">The helper service from JSON operations.</param>
         /// <param name="outputJsonPath">The output path of the new file.</param>
         /// <param name="filter">The filter expression that will be applied to the data.</param>
@@ -25,7 +23,7 @@ namespace DatabaseProject.Services
         /// <b>True</b> if the filtered data was successfully written to file;<br></br>
         /// <b>False</b> if the filtered data was not written to a new file or no filter was chosen.
         /// </returns>
-        public bool OutputFilteredDataToFile(JsonFileService<T> jsonFileService, string outputJsonPath, Expression<Func<T, bool>> filter = null)
+        public bool OutputFilteredDataToFile(IJsonProcessor<T> jsonFileService, string outputJsonPath, Expression<Func<T, bool>> filter = null)
         {
             IQueryable<T> query = _context.Set<T>();
 

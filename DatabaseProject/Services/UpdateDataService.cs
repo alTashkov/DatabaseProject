@@ -1,10 +1,11 @@
 ﻿using DatabaseProject.Data;
+using DatabaseProject.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace DatabaseProject.Services
 {
-    public class UpdateDataService<T> : IServiceWithLogger where T : class
+    public class UpdateDataService<T> : IDataUpdater<T> ,ILoggable where T : class
     {
         private readonly SocialMediaContext _context;
         

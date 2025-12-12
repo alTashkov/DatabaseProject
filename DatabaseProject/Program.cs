@@ -1,16 +1,22 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
 using DatabaseProject.Helpers;
+using DatabaseProject.Interfaces;
+using DatabaseProject.Models;
+using DatabaseProject.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace DatabaseProject
 {
     internal class Program
     {
         static void Main(string[] args)
-        {            
-            var container = ContainerConfig.Configure();
+        {
+            var builder = new ContainerBuilder();
+            ContainerConfig.Configure(builder);
 
+            var container = builder.Build();
             using (var scope = container.BeginLifetimeScope()) 
             {
                 SocialMediaContext context = scope.Resolve<SocialMediaContext>();
@@ -38,9 +44,9 @@ namespace DatabaseProject
 
                                     string normalizedEntityType = insertEntityType?.Trim() ?? string.Empty;
                                     
-                                    bool exists = entityTypes.Any(e => e.ClrType.Name.Equals(normalizedEntityType, 
+                                    bool entityExists = entityTypes.Any(e => e.ClrType.Name.Equals(normalizedEntityType, 
                                         StringComparison.OrdinalIgnoreCase));
-                                    if (exists)
+                                    if (entityExists)
                                     {
                                         Console.WriteLine($"Processing entity type {char.ToUpper(normalizedEntityType[0]) + 
                                             normalizedEntityType.Substring(1)}");
@@ -51,10 +57,18 @@ namespace DatabaseProject
                                         if (entityTypeInsert != null)
                                         {
                                             var clrType = entityTypeInsert.ClrType;
+
+                                            // Build the generic types and resolve.
+                                            var processorType = typeof(IJsonProcessor<>).MakeGenericType(clrType);
+                                            var jsonFileService = scope.Resolve(processorType);
+
+                                            var inserterType = typeof(IBulkInserter<>).MakeGenericType(clrType);
+                                            var bulkInsertService = scope.Resolve(inserterType);
+
                                             var method = typeof(DataProcessor).GetMethod("Insert")!
                                                 .MakeGenericMethod(clrType);
 
-                                            method.Invoke(null, new object[] { scope, inputFilePath });
+                                            method.Invoke(null, new object[] { jsonFileService, bulkInsertService, scope, inputFilePath });
                                         }
                                         else
                                         {
@@ -98,9 +112,23 @@ namespace DatabaseProject
                                         if (entityTypeRead != null)
                                         {
                                             var clrType = entityTypeRead.ClrType;
+
+                                            // Build the generic types and resolve.
+                                            var processorType = typeof(IJsonProcessor<>).MakeGenericType(clrType);
+                                            var jsonFileService = scope.Resolve(processorType);
+
                                             var method = typeof(DataProcessor).GetMethod("Read")!.MakeGenericMethod(clrType);
 
-                                            method.Invoke(null, new object[] { scope, outputFilePath });
+                                            Console.WriteLine("Enter a query to filter data by: ");
+                                            var inputFilter = Console.ReadLine();
+
+                                            var buildFilterMethod = typeof(AdvancedFilterBuilder).GetMethod("BuildFilter")!.MakeGenericMethod(clrType);
+                                            var builtFilter = buildFilterMethod.Invoke(null, new object[] { inputFilter });
+
+                                            var outputterType = typeof(IBulkOutputter<>).MakeGenericType(clrType);
+                                            var bulkOutputService = scope.Resolve(outputterType);
+
+                                            method.Invoke(null, new object[] {jsonFileService, bulkOutputService, scope, outputFilePath, builtFilter });
                                         }
                                         else
                                         {
@@ -177,9 +205,13 @@ namespace DatabaseProject
                                         if (propertyValue != null)
                                         {
                                             var method = typeof(DataProcessor).GetMethod("Update");
+
+                                            var updaterType = typeof(IDataUpdater<>).MakeGenericType(entityTypeMetadata.ClrType);
+                                            var updateDataService = scope.Resolve(updaterType);
+
                                             var genericMethod = method.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
 
-                                            genericMethod.Invoke(null, new object[] { scope, parsedKey!, propertyValue, property });
+                                            genericMethod.Invoke(null, new object[] {updateDataService, scope, parsedKey!, propertyValue, property });
 
                                             Console.WriteLine($"{char.ToUpper(normalizedEntityType[0]) +
                                             normalizedEntityType.Substring(1)} with key {parsedKey} updated successfully.");
@@ -238,7 +270,10 @@ namespace DatabaseProject
                                     var method = typeof(DataProcessor).GetMethod("Delete");
                                     var genericMethod = method.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
 
-                                    genericMethod.Invoke(null, new object[] { scope, parsedKey! });
+                                    var deleterType = typeof(IDataDeleter<>).MakeGenericType(entityTypeMetadata.ClrType);
+                                    var deleteDataService = scope.Resolve(deleterType);
+
+                                    genericMethod.Invoke(null, new object[] {deleteDataService, scope, parsedKey!});
 
                                     Console.WriteLine($"{char.ToUpper(normalizedEntityType[0]) +
                                         normalizedEntityType.Substring(1)} with key {parsedKey} deleted successfully.");

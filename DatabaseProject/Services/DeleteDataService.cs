@@ -1,9 +1,10 @@
 ﻿using DatabaseProject.Data;
+using DatabaseProject.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace DatabaseProject.Services
 {
-    public class DeleteDataService<T> : IServiceWithLogger where T : class
+    public class DeleteDataService<T> : IDataDeleter<T>, ILoggable where T : class
     {
         private readonly SocialMediaContext _context;
         public ILogger Logger { get; }

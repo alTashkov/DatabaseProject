@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using DatabaseProject.Services;
+using DatabaseProject.Interfaces;
 using System.Linq.Expressions;
 
 namespace DatabaseProject.Helpers
@@ -12,10 +12,9 @@ namespace DatabaseProject.Helpers
         /// <typeparam name="T">The type of entity being processed.</typeparam>
         /// <param name="scope">The lifetime of the container.</param>
         /// <param name="inputFilePath">The path to the file containing the data.</param>
-        public static void Insert<T>(ILifetimeScope scope, string inputFilePath) where T : class
+        public static void Insert<T>(IJsonProcessor<T> jsonService, IBulkInserter<T> bulkInsertService , ILifetimeScope scope, string inputFilePath) where T : class
         {
-            var jsonService = scope.Resolve<JsonFileService<T>>();
-            List<T> entities = jsonService.ReadDataFromFile(inputFilePath);
+            List<T>? entities = jsonService.ReadDataFromFile(inputFilePath);
 
             if (entities == null || entities.Count == 0)
             {
@@ -23,7 +22,6 @@ namespace DatabaseProject.Helpers
                 return;
             }
 
-            var bulkInsertService = scope.Resolve<BulkInsertService<T>>();
             bulkInsertService.InsertInBatches(entities, 10);
 
             Console.WriteLine($"{entities.Count} {typeof(T).Name} records inserted successfully.");
@@ -36,11 +34,8 @@ namespace DatabaseProject.Helpers
         /// <param name="scope">The lifetime of the container</param>
         /// <param name="outputFilePath">The path to the file used for output.</param>
         /// <param name="filter">The filter that will be applied to the data before output.</param>
-        public static void Read<T>(ILifetimeScope scope, string outputFilePath, Expression<Func<T, bool>> filter = null) where T : class
+        public static void Read<T>(IJsonProcessor<T> jsonService, IBulkOutputter<T> bulkOutputService, ILifetimeScope scope, string outputFilePath, Expression<Func<T, bool>> filter = null) where T : class
         {
-            var jsonService = scope.Resolve<JsonFileService<T>>();
-            BulkOutputService<T> bulkOutputService = scope.Resolve<BulkOutputService<T>>();
-
             // Example filter:  u => u.UserId > 8)
             bulkOutputService.OutputFilteredDataToFile(jsonService, outputFilePath, filter);
         }
@@ -54,9 +49,8 @@ namespace DatabaseProject.Helpers
         /// <param name="primaryKey">The type of primary key.</param>
         /// <param name="propertyValue">The value of the property that will be configured.</param>
         /// <param name="property">The property that will be configured.</param>
-        public static void Update<T, TKey>(ILifetimeScope scope, TKey primaryKey, string propertyValue, string property) where T : class
+        public static void Update<T, TKey>(IDataUpdater<T> updateDataService, ILifetimeScope scope, TKey primaryKey, string propertyValue, string property) where T : class
         {
-            UpdateDataService<T> updateDataService = scope.Resolve<UpdateDataService<T>>();
             updateDataService.UpdateEntityData(primaryKey, propertyValue, property);
         }
 
@@ -67,9 +61,8 @@ namespace DatabaseProject.Helpers
         /// <typeparam name="TKey">The type of primary key that has been applied to the entity.</typeparam>
         /// <param name="scope">The lifetime of the container.</param>
         /// <param name="primaryKey">The type of primary key.</param>
-        public static void Delete<T, TKey>(ILifetimeScope scope, TKey primaryKey) where T : class
+        public static void Delete<T, TKey>(IDataDeleter<T> deleteDataService, ILifetimeScope scope, TKey primaryKey) where T : class
         {
-            DeleteDataService<T> deleteDataService = scope.Resolve<DeleteDataService<T>>();
             deleteDataService.DeleteEntityData(primaryKey);
         }
     }

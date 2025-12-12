@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using DatabaseProject.Interfaces;
+using Microsoft.Extensions.Logging;
+using System.IO;
 using System.Text.Json;
 
 namespace DatabaseProject.Services
 {
-    public class JsonFileService<T> : IServiceWithLogger
+    public class JsonFileService<T> : IJsonProcessor<T>, ILoggable
     {
         public ILogger Logger { get; }
 
@@ -47,10 +49,7 @@ namespace DatabaseProject.Services
         {
             if (!File.Exists(jsonPath))
             {
-                Logger.LogError("File with path {FilePath} does not exist.",
-                jsonPath);
-
-                return null;
+                using (File.Create(jsonPath)) { }
             }
 
             string jsonContent = File.ReadAllText(jsonPath);
