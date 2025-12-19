@@ -107,10 +107,18 @@ DatabaseProject/
     ├── Migrations/          # EF Core migration history
     │
     ├── Models/              # Entity classes (User, Post, etc.)
-    │
+    |   ├── Comment.cs
+    |   ├── Friendship.cs
+    |   ├── Group.cs
+    |   ├── Post.cs
+    |   ├── Profile.cs
+    |   └── User.cs
     ├── Services/            # Concrete implementations of interfaces
-    │   ├── BulkInserter.cs
-    │   └── JsonProcessor.cs
+    │   ├── BulkInsertService.cs
+    │   ├── BulkOutputService.cs
+    |   ├── DeleteDataService.cs
+    |   ├── JsonFileService.cs
+    |   └── UpdateDataService.cs
     │
     └── JSON Test Files/     # Root-level test data for imports
         ├── friendship.json
