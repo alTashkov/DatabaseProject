@@ -24,25 +24,15 @@ namespace DatabaseProject
             .InstancePerLifetimeScope();
 
             // Register services as interfaces
-            builder.RegisterGeneric(typeof(JsonFileService<>))
-               .As(typeof(IJsonProcessor<>))
-               .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(JsonFileService<>)).As(typeof(IJsonProcessor<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(BulkInsertService<>))
-                   .As(typeof(IBulkInserter<>))
-                   .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(BulkInsertService<>)).As(typeof(IBulkInserter<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(BulkOutputService<>))
-                   .As(typeof(IBulkExporter<>))
-                   .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(BulkOutputService<>)).As(typeof(IBulkExporter<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(UpdateDataService<>))
-                   .As(typeof(IDataUpdater<>))
-                   .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(UpdateDataService<>)).As(typeof(IDataUpdater<>)).InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(DeleteDataService<>))
-                   .As(typeof(IDataDeleter<>))
-                   .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(DeleteDataService<>)).As(typeof(IDataDeleter<>)).InstancePerLifetimeScope();
 
             // Logger factory
             var loggerFactory = LoggerFactory.Create(logging =>
@@ -51,12 +41,8 @@ namespace DatabaseProject
                 logging.AddDebug();
             });
 
-            builder.RegisterInstance(loggerFactory).
-                As<ILoggerFactory>().
-                SingleInstance();
-            builder.RegisterGeneric(typeof(Logger<>)).
-                As(typeof(ILogger<>)).
-                SingleInstance();
+            builder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
+            builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>)).SingleInstance();
         }
     }
 }
