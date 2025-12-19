@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DatabaseProject.Data;
+﻿using DatabaseProject.Data;
 using DatabaseProject.Interfaces;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Reflection;

@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DatabaseProject.Interfaces;
+﻿using DatabaseProject.Interfaces;
 using System.Linq.Expressions;
 
 namespace DatabaseProject.Helpers

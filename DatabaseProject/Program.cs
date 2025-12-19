@@ -20,8 +20,8 @@ namespace DatabaseProject
 
                 Console.WriteLine("Social media DBMS: ");
 
-                bool shouldEnd = false;
-                while (!shouldEnd)
+                bool isEndOperation = false;
+                while (!isEndOperation)
                 {
                     Console.WriteLine("\nPlease choose an operation \n1. Insert\n2. Read\n3. Update\n4. Delete\n5. Exit");
                     Console.WriteLine("\nOperation:");
@@ -68,10 +68,10 @@ namespace DatabaseProject
                                     Console.WriteLine("\nOPERATION - Update");
                                     Console.WriteLine("Enter entity type: ");
 
-                                    string? entityType = Console.ReadLine();
-                                    if (!(string.IsNullOrEmpty(entityType)))
+                                    string? updateEntityType = Console.ReadLine();
+                                    if (!(string.IsNullOrEmpty(updateEntityType)))
                                     {
-                                        opeartionManager.Update(entityType);
+                                        opeartionManager.Update(updateEntityType);
                                     }
                                     else
                                     {
@@ -100,7 +100,7 @@ namespace DatabaseProject
                         else
                         {
                             Console.WriteLine("Closing social media CLI...");
-                            shouldEnd = true;
+                            isEndOperation = true;
                             break;
                         }
                     }
