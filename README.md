@@ -78,11 +78,45 @@ SSMS
 
 ```
 DatabaseProject/
-├── .gitignore             # Git ignore file for common .NET artifacts
-├── DatabaseProject.sln    # Visual Studio Solution file
-├── DatabaseProject/       # Main C# project directory (contains .csproj, source code, config)
-│   └── # (further internal structure based on C# project type)
-└── README.md              # Project README file
+├── .gitignore               # Git ignore file (Edited last month)
+├── DatabaseProject.sln      # Visual Studio Solution file
+├── README.md                # Project documentation
+└── DatabaseProject/         # Main C# Project Source
+    ├── App.config           # Application configuration
+    ├── ContainerConfig.cs   # Autofac IoC registration and configuration
+    ├── DatabaseProject.csproj # Project file with dependencies
+    ├── Program.cs           # Entry point (CLI Loop and Main scope)
+    │
+    ├── Data/                # EF Core Context and Filter logic
+    │   └── SocialMediaContext.cs
+    │
+    ├── Diagram/             # Database diagrams or documentation
+    │
+    ├── Factories/           # Implementation of service resolution
+    │   └── ServiceFactory.cs (Refactored recently)
+    │
+    ├── Helpers/             # Orchestration and static logic
+    │   ├── OperationManager.cs
+    │   └── DataProcessor.cs
+    │
+    ├── Interfaces/          # Generic service and factory definitions
+    │   ├── IEntityProcessorFactory.cs
+    │   ├── IBulkInserter.cs
+    │   └── IJsonProcessor.cs
+    │
+    ├── Migrations/          # EF Core migration history
+    │
+    ├── Models/              # Entity classes (User, Post, etc.)
+    │
+    ├── Services/            # Concrete implementations of interfaces
+    │   ├── BulkInserter.cs
+    │   └── JsonProcessor.cs
+    │
+    └── JSON Test Files/     # Root-level test data for imports
+        ├── friendship.json
+        ├── posts.json
+        ├── testREAD2.json
+        └── dbOutputFromReading.json
 ```
 
 ## ⚙️ Configuration
