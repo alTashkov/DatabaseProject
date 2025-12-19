@@ -3,5 +3,25 @@
 		"Username": "altashkov2",
 		"Email": "altashko@gmail.com",
 		"Password": "testpassword"
+	},
+	{
+		"Username": "Ivan Draganov",
+		"Email": "ivandraganov@gmail.com",
+		"Password": "ivan123dragan"
+	},
+	{
+		"Username": "Stefan Stefanov",
+		"Email": "stefan123@gmail.com",
+		"Password": "stefan9998"
+	},
+	{
+		"Username": "Miroslav Balev",
+		"Email": "balevmiro@gmail.com",
+		"Password": "slavalev45"
+	},
+	{
+		"Username": "Michael Phillips",
+		"Email": "m.phillips@gmail.com",
+		"Password": "eagleusa2023"
 	}
 ]
