@@ -58,7 +58,7 @@ SSMS
 3.  **Database setup**
     This project is designed to interact with a database. You will need to:
     -   **Set up your database**: Create a database instance (e.g., SQL Server, SQLite file, etc.).
-    -   **Configure the connection string**: Update the connection string in the project's configuration (e.g., `app.config` or `appsettings.json` within the `DatabaseProject` directory once its contents are known).
+    -   **Configure the connection string**: Update the connection string in the project's configuration (`app.config` within the `DatabaseProject` directory).
 
 4.  **Build and Run**
     **Using Visual Studio:**
