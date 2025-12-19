@@ -13,7 +13,7 @@
 
 ## 📖 Overview
 
-This repository hosts a C# .NET application designed for efficient database interaction. It provides a foundational structure for managing and manipulating data, serving as a versatile starting point for various database-driven applications, including desktop applications, console tools, or a data access layer for more complex systems.
+This repository hosts a C# .NET application designed for efficient database interaction. It provides a foundational structure for managing and manipulating data in desktop applications, console tools, or a data access layer for more complex systems.
 
 ## ✨ Features
 
