@@ -127,7 +127,4 @@ I welcome contributions! Please consider forking the repository and submitting p
 <div align="center">
 
 **⭐ Star this repo if you find it helpful!**
-
-Made with ❤️ by alTashkov
-
 </div>
