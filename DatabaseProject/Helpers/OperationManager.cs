@@ -6,15 +6,22 @@ using System.Reflection;
 
 namespace DatabaseProject.Helpers
 {
-    public static class OperationManager
+    public class OperationManager
     {
+        private readonly IServiceFactory serviceFactory;
+        private readonly SocialMediaContext context;
+
+        public OperationManager(IServiceFactory serviceFactory, SocialMediaContext context)
+        {
+            this.serviceFactory = serviceFactory;
+            this.context = context;
+        }
+
         /// <summary>
         /// Reads data from the database based on an input query and saves it in a file.
         /// </summary>
         /// <param name="outputFilePath">The path to the file used for outputting data to.</param>
-        /// <param name="scope">The lifetime of the container.</param>
-        /// <param name="context">The context for the database.</param>
-        public static void ReadWithFilter(string outputFilePath, ILifetimeScope scope, SocialMediaContext context)
+        public void ReadWithFilter(string outputFilePath)
         {
             if (outputFilePath != null)
             {
@@ -31,8 +38,7 @@ namespace DatabaseProject.Helpers
                         var clrType = entityTypeMetadata.ClrType;
 
                         // Build the generic types and resolve.
-                        var processorType = typeof(IJsonProcessor<>).MakeGenericType(clrType);
-                        var jsonFileService = scope.Resolve(processorType);
+                        var jsonFileService = serviceFactory.ResolveProcessor(clrType, typeof(IJsonProcessor<>));
 
                         Console.WriteLine("Enter a query to filter data by: ");
                         var inputFilter = Console.ReadLine();
@@ -42,13 +48,12 @@ namespace DatabaseProject.Helpers
                         {
                             var builtFilter = buildFilterMethod.Invoke(null, new object[] { inputFilter });
 
-                            var outputterType = typeof(IBulkExporter<>).MakeGenericType(clrType);
-                            var bulkOutputService = scope.Resolve(outputterType);
+                            var bulkOutputService = serviceFactory.ResolveProcessor(clrType, typeof(IBulkExporter<>));
 
                             var method = typeof(DataProcessor).GetMethod("Read")!.MakeGenericMethod(clrType);
                             try
                             {
-                                method.Invoke(null, new object[] { jsonFileService, bulkOutputService, scope, outputFilePath, builtFilter! });
+                                method.Invoke(null, new object[] { jsonFileService, bulkOutputService, outputFilePath, builtFilter! });
                             }
                             catch (TargetInvocationException ex)
                             {
@@ -76,9 +81,7 @@ namespace DatabaseProject.Helpers
         /// Inserts data into the database from a file.
         /// </summary>
         /// <param name="inputFilePath">The path to the file used for input.</param>
-        /// <param name="context">The database context.</param>
-        /// <param name="scope">The lifetime of the container.</param>
-        public static void Insert(string inputFilePath, SocialMediaContext context, ILifetimeScope scope)
+        public void Insert(string inputFilePath)
         {
             if (inputFilePath != null)
             {
@@ -94,18 +97,16 @@ namespace DatabaseProject.Helpers
 
                         var clrType = entityTypeMetadata.ClrType;
 
-                        // Build the generic types and resolve.
-                        var processorType = typeof(IJsonProcessor<>).MakeGenericType(clrType);
-                        var jsonFileService = scope.Resolve(processorType);
+                        // Build the generic type and resolve.
+                        var jsonFileService = serviceFactory.ResolveProcessor(clrType, typeof(IJsonProcessor<>));
 
                         var inserterType = typeof(IBulkInserter<>).MakeGenericType(clrType);
-                        var bulkInsertService = scope.Resolve(inserterType);
+                        var bulkInsertService = serviceFactory.ResolveProcessor(clrType, inserterType);
 
-                        var method = typeof(DataProcessor).GetMethod("Insert")!
-                            .MakeGenericMethod(clrType);
+                        var method = typeof(DataProcessor).GetMethod("Insert")!.MakeGenericMethod(clrType);
                         try
                         {
-                            method?.Invoke(null, new object[] { jsonFileService, bulkInsertService, scope, inputFilePath });
+                            method?.Invoke(null, new object[] { jsonFileService, bulkInsertService, inputFilePath });
                         }
                         catch (TargetInvocationException ex)
                         {
@@ -128,9 +129,7 @@ namespace DatabaseProject.Helpers
         /// Updates entity data in the database based on some property value.
         /// </summary>
         /// <param name="entityType">The type of entity being processed.</param>
-        /// <param name="context">The database context.</param>
-        /// <param name="scope">The lifetime of the container.</param>
-        public static void Update(string entityType, SocialMediaContext context, ILifetimeScope scope)
+        public void Update(string entityType)
         {
             var entityTypeMetadata = GetEntityTypeMetadata(entityType, context);
             if (entityTypeMetadata != null)
@@ -185,13 +184,12 @@ namespace DatabaseProject.Helpers
                     {
                         var method = typeof(DataProcessor).GetMethod("Update");
 
-                        var updaterType = typeof(IDataUpdater<>).MakeGenericType(entityTypeMetadata.ClrType);
-                        var updateDataService = scope.Resolve(updaterType);
+                        var updateDataService = serviceFactory.ResolveProcessor(entityTypeMetadata.ClrType, typeof(IDataUpdater<>));
 
                         var genericMethod = method!.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
                         try
                         {
-                            genericMethod?.Invoke(null, new object[] { updateDataService, scope, parsedKey!, propertyValue, property });
+                            genericMethod?.Invoke(null, new object[] { updateDataService, parsedKey!, propertyValue, property });
                         }
                         catch (TargetInvocationException ex)
                         {
@@ -214,7 +212,7 @@ namespace DatabaseProject.Helpers
         /// <param name="deleteEntityType">The type of entity being processed.</param>
         /// <param name="context">The database context.</param>
         /// <param name="scope">The lifetime of the container.</param>
-        public static void Delete(string deleteEntityType, SocialMediaContext context, ILifetimeScope scope)
+        public void Delete(string deleteEntityType)
         {
             if (!string.IsNullOrEmpty(deleteEntityType))
             {
@@ -251,14 +249,13 @@ namespace DatabaseProject.Helpers
                         Console.WriteLine("Unsupported primary key type or invalid input.");
                     }
 
-                    var deleterType = typeof(IDataDeleter<>).MakeGenericType(entityTypeMetadata.ClrType);
-                    var deleteDataService = scope.Resolve(deleterType);
+                    var deleteDataService = serviceFactory.ResolveProcessor(entityTypeMetadata.ClrType, typeof(IDataDeleter<>));
 
                     var method = typeof(DataProcessor).GetMethod("Delete");
                     var genericMethod = method!.MakeGenericMethod(entityTypeMetadata.ClrType, keyType);
                     try
                     {
-                        genericMethod.Invoke(null, new object[] { deleteDataService, scope, parsedKey! });
+                        genericMethod.Invoke(null, new object[] { deleteDataService, parsedKey! });
                     }
                     catch (TargetInvocationException ex)
                     {

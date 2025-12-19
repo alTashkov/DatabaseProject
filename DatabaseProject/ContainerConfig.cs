@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
+using DatabaseProject.Factories;
+using DatabaseProject.Helpers;
 using DatabaseProject.Interfaces;
 using DatabaseProject.Services;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +35,10 @@ namespace DatabaseProject
             builder.RegisterGeneric(typeof(UpdateDataService<>)).As(typeof(IDataUpdater<>)).InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(DeleteDataService<>)).As(typeof(IDataDeleter<>)).InstancePerLifetimeScope();
+
+            builder.RegisterType<ServiceFactory>().As<IServiceFactory>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OperationManager>().InstancePerLifetimeScope();
 
             // Logger factory
             var loggerFactory = LoggerFactory.Create(logging =>

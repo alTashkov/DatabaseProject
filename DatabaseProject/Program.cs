@@ -27,6 +27,7 @@ namespace DatabaseProject
                     Console.WriteLine("\nOperation:");
                     if (int.TryParse(Console.ReadLine(), out int operationType))
                     {
+                        var opeartionManager = scope.Resolve<OperationManager>();
                         if (operationType != 5)
                         {
                             switch (operationType)
@@ -38,7 +39,7 @@ namespace DatabaseProject
                                     string? inputFilePath = Console.ReadLine();
                                     if (!(string.IsNullOrEmpty(inputFilePath)))
                                     {
-                                        OperationManager.Insert(inputFilePath, context, scope);
+                                        opeartionManager.Insert(inputFilePath);
                                     }
                                     else
                                     {
@@ -54,7 +55,7 @@ namespace DatabaseProject
                                     string? outputFilePath = Console.ReadLine();
                                     if (!(string.IsNullOrEmpty(outputFilePath)))
                                     {
-                                        OperationManager.ReadWithFilter(outputFilePath, scope, context);
+                                        opeartionManager.ReadWithFilter(outputFilePath);
                                     }
                                     else
                                     {
@@ -70,7 +71,7 @@ namespace DatabaseProject
                                     string? entityType = Console.ReadLine();
                                     if (!(string.IsNullOrEmpty(entityType)))
                                     {
-                                        OperationManager.Update(entityType, context, scope);
+                                        opeartionManager.Update(entityType);
                                     }
                                     else
                                     {
@@ -86,7 +87,7 @@ namespace DatabaseProject
                                     string? deleteEntityType = Console.ReadLine();
                                     if (!(string.IsNullOrEmpty(deleteEntityType)))
                                     {
-                                        OperationManager.Delete(deleteEntityType, context, scope);
+                                        opeartionManager.Delete(deleteEntityType);
                                     }
                                     else
                                     {
