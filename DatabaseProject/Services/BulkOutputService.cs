@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace DatabaseProject.Services
 {
-    public class BulkOutputService<T> : IBulkOutputter<T>, ILoggable where T : class
+    public class BulkOutputService<T> : IBulkExporter<T>, ILoggable where T : class
     {
         private readonly SocialMediaContext _context;
         public ILogger Logger { get; }

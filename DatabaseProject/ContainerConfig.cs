@@ -33,7 +33,7 @@ namespace DatabaseProject
                    .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(BulkOutputService<>))
-                   .As(typeof(IBulkOutputter<>))
+                   .As(typeof(IBulkExporter<>))
                    .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(UpdateDataService<>))

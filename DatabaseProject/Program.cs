@@ -23,7 +23,8 @@ namespace DatabaseProject
                 bool shouldEnd = false;
                 while (!shouldEnd)
                 {
-                    Console.WriteLine("\nPlease choose an operation (\n1. Insert\n2. Read\n3. Update\n4. Delete\n5. Exit :");
+                    Console.WriteLine("\nPlease choose an operation \n1. Insert\n2. Read\n3. Update\n4. Delete\n5. Exit");
+                    Console.WriteLine("\nOperation:");
                     if (int.TryParse(Console.ReadLine(), out int operationType))
                     {
                         if (operationType != 5)

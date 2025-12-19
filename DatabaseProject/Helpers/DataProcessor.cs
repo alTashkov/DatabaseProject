@@ -34,7 +34,7 @@ namespace DatabaseProject.Helpers
         /// <param name="scope">The lifetime of the container</param>
         /// <param name="outputFilePath">The path to the file used for output.</param>
         /// <param name="filter">The filter that will be applied to the data before output.</param>
-        public static void Read<T>(IJsonProcessor<T> jsonService, IBulkOutputter<T> bulkOutputService, ILifetimeScope scope, string outputFilePath, Expression<Func<T, bool>> filter = null) where T : class
+        public static void Read<T>(IJsonProcessor<T> jsonService, IBulkExporter<T> bulkOutputService, ILifetimeScope scope, string outputFilePath, Expression<Func<T, bool>> filter = null) where T : class
         {
             // Example filter:  u => u.UserId > 8)
             bulkOutputService.OutputFilteredDataToFile(jsonService, outputFilePath, filter);
