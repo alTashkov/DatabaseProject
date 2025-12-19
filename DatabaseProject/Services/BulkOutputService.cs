@@ -16,6 +16,7 @@ namespace DatabaseProject.Services
             Logger = logger;
         }
 
+        /// <inheritdoc/>
         /// <param name="jsonFileService">The helper service from JSON operations.</param>
         /// <param name="outputJsonPath">The output path of the new file.</param>
         /// <param name="filter">The filter expression that will be applied to the data.</param>

@@ -16,9 +16,7 @@ namespace DatabaseProject.Services
             Logger = logger;
         }
 
-        /// <summary>
-        /// Inserts a fixed amount of entities into the database.
-        /// </summary>
+        /// <inheritdoc/>
         /// <param name="entities">The data list of entities to be inserted into the database.</param>
         /// <param name="batchSize">The amount of entities to be inserted from the list.</param>
         /// <returns>

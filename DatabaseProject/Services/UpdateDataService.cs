@@ -17,9 +17,7 @@ namespace DatabaseProject.Services
             Logger = logger;
         }
 
-        /// <summary>
-        /// Finds entity by primary key and changes its parameters based on given value.
-        /// </summary>
+        /// <inheritdoc/>
         /// <typeparam name="TKey">The type of primary key of the entity.s</typeparam>
         /// <param name="primaryKey">The value of the primary key.</param>
         /// <param name="propertyValue">The new value that will be assigned to the given property.</param>

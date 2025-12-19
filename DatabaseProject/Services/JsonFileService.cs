@@ -57,9 +57,7 @@ namespace DatabaseProject.Services
             return data;
         }
 
-        /// <summary>
-        /// Writes and serializes a data list to a JSON file.
-        /// </summary>
+        /// <inheritdoc/>
         /// <param name="outputJsonPath">The path to the JSON file.</param>
         /// <param name="data">The data to be written.</param>
         /// <returns>

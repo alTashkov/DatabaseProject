@@ -14,10 +14,8 @@ namespace DatabaseProject.Services
             _context = context;
             Logger = logger;
         }
-
-        /// <summary>
-        /// Deletes the entity from the database which has a matching primary key.
-        /// </summary>
+        
+        /// <inheritdoc/>
         /// <typeparam name="TKey">The primary key of the given entity.</typeparam>
         /// <param name="primaryKey">The value of the primary key.</param>
         /// <returns>
