@@ -90,8 +90,9 @@ DatabaseProject/
     ├── Data/                # EF Core Context and Filter logic
     │   └── SocialMediaContext.cs
     │
-    ├── Diagram/             # Database diagrams or documentation
-    │
+    ├── Diagram/            # Database diagrams or documentation
+    │   └── databaseProjectDiagram.png
+    | 
     ├── Factories/           # Implementation of service resolution
     │   └── ServiceFactory.cs (Refactored recently)
     │
@@ -100,9 +101,13 @@ DatabaseProject/
     │   └── DataProcessor.cs
     │
     ├── Interfaces/          # Generic service and factory definitions
-    │   ├── IEntityProcessorFactory.cs
+    │   ├── IServiceFactory.cs
     │   ├── IBulkInserter.cs
-    │   └── IJsonProcessor.cs
+    │   ├── IJsonProcessor.cs
+    |   ├── IBulkExporter.cs
+    |   ├── IDataDeleter.cs
+    |   ├── IDataUpdater.cs
+    |   └── ILoggable.cs
     │
     ├── Migrations/          # EF Core migration history
     │
@@ -124,7 +129,8 @@ DatabaseProject/
         ├── friendship.json
         ├── posts.json
         ├── testREAD2.json
-        └── dbOutputFromReading.json
+        ├── dbOutputFromReading.json
+        └── ...others...
 ```
 
 ## ⚙️ Configuration
