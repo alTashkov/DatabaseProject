@@ -31,9 +31,8 @@ This repository hosts a C# .NET application designed for efficient database inte
 ![NuGet](https://img.shields.io/badge/NuGet-004880?style=for-the-badge&logo=nuget&logoColor=white)
 
 **Database:**
-(Specific database not detected, project supports relational databases)
 ![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=sql&logoColor=white)
-*e.g., SQL Server, SQLite, MySQL, PostgreSQL*
+SSMS
 
 ## 🚀 Quick Start
 
@@ -89,28 +88,17 @@ DatabaseProject/
 ## ⚙️ Configuration
 
 ### Database Connection String
-The application will require a database connection string. This is typically defined in an `app.config` or `appsettings.json` file within the `DatabaseProject` directory.
+The application will require a database connection string. This is defined in the `app.config` file within the `DatabaseProject` directory.
 
-**Example (for `app.config`):**
 ```xml
 <configuration>
   <connectionStrings>
     <add name="DefaultConnection" 
-         connectionString="Data Source=YourServerName;Initial Catalog=YourDatabaseName;Integrated Security=True;" 
+         connectionString="Server=.\SQLEXPRESS;Database=DatabaseProject;Trusted_Connection=True;TrustServerCertificate=True;" 
          providerName="System.Data.SqlClient" />
   </connectionStrings>
 </configuration>
 ```
-
-**Example (for `appsettings.json` - if it's a .NET Core/5+ project):**
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=YourServerName;Database=YourDatabaseName;Trusted_Connection=True;MultipleActiveResultSets=true"
-  }
-}
-```
-**TODO**: Specify the exact location and format of the connection string once the project's internal structure is clear.
 
 ## 🔧 Development
 
@@ -126,31 +114,9 @@ To contribute or develop further:
 3.  Modify the code and project settings as needed.
 4.  Build and run to test changes.
 
-## 🧪 Testing
-
-(No explicit testing framework or commands were detected from the top-level files.)
-
-If tests are implemented within the `DatabaseProject` (e.g., using NUnit, xUnit, or MSTest), they can typically be run via:
-
-**Using Visual Studio:**
--   Go to Test > Test Explorer.
-
-**Using .NET CLI:**
-```bash
-dotnet test
-```
-
 ## 🤝 Contributing
 
-We welcome contributions! Please consider forking the repository and submitting pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-## 📄 License
-
-This project is licensed under the [LICENSE_NAME](LICENSE) - see the LICENSE file for details. <!-- TODO: Add a LICENSE file with the chosen license -->
-
-## 🙏 Acknowledgments
-
--   The .NET community for providing robust development tools and frameworks.
+I welcome contributions! Please consider forking the repository and submitting pull requests. For major changes, please open an issue first to discuss what you would like to change.
 
 ## 📞 Support & Contact
 
