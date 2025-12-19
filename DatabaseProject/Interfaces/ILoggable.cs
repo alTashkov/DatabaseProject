@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace DatabaseProject.Services
+namespace DatabaseProject.Interfaces
 {
     public interface ILoggable
     {

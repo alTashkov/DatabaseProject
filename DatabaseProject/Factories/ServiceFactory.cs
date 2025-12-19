@@ -17,7 +17,7 @@ namespace DatabaseProject.Factories
         /// </summary>
         /// <param name="entityType">The type of entity being processed.</param>
         /// <param name="serviceType">The service type being processed.</param>
-        /// <returns>The resolved generic service.</returns>
+        /// <returns>The resolved generic service object.</returns>
         public object ResolveProcessor(Type entityType, Type serviceType)
         {
             if (!serviceType.IsGenericTypeDefinition)
