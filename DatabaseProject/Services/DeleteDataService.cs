@@ -9,7 +9,7 @@ namespace DatabaseProject.Services
         private readonly SocialMediaContext _context;
         public ILogger Logger { get; }
 
-        public DeleteDataService(SocialMediaContext context, ILogger<DeleteDataService<T>> logger)
+        public DeleteDataService(SocialMediaContext context, ILogger<IDataDeleter<T>> logger)
         {
             _context = context;
             Logger = logger;

@@ -11,14 +11,14 @@ namespace DatabaseProject.Services
         
         public ILogger Logger { get; }
 
-        public UpdateDataService(SocialMediaContext context, ILogger<UpdateDataService<T>> logger)
+        public UpdateDataService(SocialMediaContext context, ILogger<IDataUpdater<T>> logger)
         {
             _context = context;
             Logger = logger;
         }
 
         /// <summary>
-        ///     Finds entity by primary key and changes its parameters based on given value.
+        /// Finds entity by primary key and changes its parameters based on given value.
         /// </summary>
         /// <typeparam name="TKey">The type of primary key of the entity.s</typeparam>
         /// <param name="primaryKey">The value of the primary key.</param>

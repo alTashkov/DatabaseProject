@@ -10,7 +10,7 @@ namespace DatabaseProject.Services
         private readonly SocialMediaContext _context;
         public ILogger Logger { get; }
 
-        public BulkOutputService(SocialMediaContext context, ILogger<BulkOutputService<T>> logger) 
+        public BulkOutputService(SocialMediaContext context, ILogger<IBulkExporter<T>> logger) 
         {
             _context = context;
             Logger = logger;

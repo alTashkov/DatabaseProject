@@ -1,6 +1,5 @@
 ﻿using DatabaseProject.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using System.Text.Json;
 
 namespace DatabaseProject.Services
@@ -9,7 +8,7 @@ namespace DatabaseProject.Services
     {
         public ILogger Logger { get; }
 
-        public JsonFileService(ILogger<JsonFileService<T>> logger)
+        public JsonFileService(ILogger<IJsonProcessor<T>> logger)
         {
             Logger = logger;
         }

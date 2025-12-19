@@ -10,7 +10,7 @@ namespace DatabaseProject.Services
 
         public ILogger Logger { get; }
 
-        public BulkInsertService(SocialMediaContext context, ILogger<BulkInsertService<T>> logger)
+        public BulkInsertService(SocialMediaContext context, ILogger<IBulkInserter<T>> logger)
         {
             _context = context;
             Logger = logger;

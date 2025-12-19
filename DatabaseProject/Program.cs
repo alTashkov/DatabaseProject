@@ -1,10 +1,7 @@
 ﻿using Autofac;
 using DatabaseProject.Data;
 using DatabaseProject.Helpers;
-using DatabaseProject.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.VisualBasic;
 
 namespace DatabaseProject
 {
@@ -26,7 +23,7 @@ namespace DatabaseProject
                 bool shouldEnd = false;
                 while (!shouldEnd)
                 {
-                    Console.WriteLine("\nPlease choose an operation (\n1. Insert\n2. Read\n3. Update\n4. Delete:\n5. Exit");
+                    Console.WriteLine("\nPlease choose an operation (\n1. Insert\n2. Read\n3. Update\n4. Delete\n5. Exit :");
                     if (int.TryParse(Console.ReadLine(), out int operationType))
                     {
                         if (operationType != 5)
@@ -34,7 +31,7 @@ namespace DatabaseProject
                             switch (operationType)
                             {
                                 case 1:
-                                    Console.WriteLine("\nOPERATION: Insert");
+                                    Console.WriteLine("\nOPERATION - Insert");
                                     Console.WriteLine("Please enter path to file to read from: ");
 
                                     string? inputFilePath = Console.ReadLine();
@@ -50,13 +47,13 @@ namespace DatabaseProject
                                 break;
 
                                 case 2:
-                                    Console.WriteLine("\nOPERATION: Read");
+                                    Console.WriteLine("\nOPERATION - Read");
                                     Console.WriteLine("Please enter path to file to read to: ");
 
                                     string? outputFilePath = Console.ReadLine();
                                     if (!(string.IsNullOrEmpty(outputFilePath)))
                                     {
-                                        OperationManager.Read(outputFilePath, scope, context);
+                                        OperationManager.ReadWithFilter(outputFilePath, scope, context);
                                     }
                                     else
                                     {
@@ -66,7 +63,7 @@ namespace DatabaseProject
                                 break;
 
                                 case 3:
-                                    Console.WriteLine("\nOPERATION: Update");
+                                    Console.WriteLine("\nOPERATION - Update");
                                     Console.WriteLine("Enter entity type: ");
 
                                     string? entityType = Console.ReadLine();
@@ -82,7 +79,7 @@ namespace DatabaseProject
                                 break;
 
                                 case 4:
-                                    Console.WriteLine("\nOPERATION: Delete");
+                                    Console.WriteLine("\nOPERATION - Delete");
                                     Console.WriteLine("Enter entity type: ");
 
                                     string? deleteEntityType = Console.ReadLine();

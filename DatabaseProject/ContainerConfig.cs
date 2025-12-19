@@ -4,7 +4,6 @@ using DatabaseProject.Interfaces;
 using DatabaseProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Xml.Serialization;
 using System.Configuration;
 
 namespace DatabaseProject

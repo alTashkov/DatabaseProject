@@ -8,7 +8,13 @@ namespace DatabaseProject.Helpers
 {
     public static class OperationManager
     {
-        public static void Read(string outputFilePath, ILifetimeScope scope, SocialMediaContext context)
+        /// <summary>
+        /// Reads data from the database based on an input query and saves it in a file.
+        /// </summary>
+        /// <param name="outputFilePath">The path to the file used for outputting data to.</param>
+        /// <param name="scope">The lifetime of the container.</param>
+        /// <param name="context">The context for the database.</param>
+        public static void ReadWithFilter(string outputFilePath, ILifetimeScope scope, SocialMediaContext context)
         {
             if (outputFilePath != null)
             {
@@ -66,6 +72,12 @@ namespace DatabaseProject.Helpers
             }
         }
 
+        /// <summary>
+        /// Inserts data into the database from a file.
+        /// </summary>
+        /// <param name="inputFilePath">The path to the file used for input.</param>
+        /// <param name="context">The database context.</param>
+        /// <param name="scope">The lifetime of the container.</param>
         public static void Insert(string inputFilePath, SocialMediaContext context, ILifetimeScope scope)
         {
             if (inputFilePath != null)
@@ -112,6 +124,12 @@ namespace DatabaseProject.Helpers
             }
         }
 
+        /// <summary>
+        /// Updates entity data in the database based on some property value.
+        /// </summary>
+        /// <param name="entityType">The type of entity being processed.</param>
+        /// <param name="context">The database context.</param>
+        /// <param name="scope">The lifetime of the container.</param>
         public static void Update(string entityType, SocialMediaContext context, ILifetimeScope scope)
         {
             var entityTypeMetadata = GetEntityTypeMetadata(entityType, context);
@@ -190,6 +208,12 @@ namespace DatabaseProject.Helpers
             }
         }
 
+        /// <summary>
+        /// Deletes an entry from the database based on its primary key.
+        /// </summary>
+        /// <param name="deleteEntityType">The type of entity being processed.</param>
+        /// <param name="context">The database context.</param>
+        /// <param name="scope">The lifetime of the container.</param>
         public static void Delete(string deleteEntityType, SocialMediaContext context, ILifetimeScope scope)
         {
             if (!string.IsNullOrEmpty(deleteEntityType))
@@ -250,6 +274,12 @@ namespace DatabaseProject.Helpers
             }
         }
 
+        /// <summary>
+        /// Gets the metadata for an entity type.
+        /// </summary>
+        /// <param name="entityTypeName">The type of entity being processed.</param>
+        /// <param name="context">The database context.</param>
+        /// <returns>The metadata of the entity type, if found in the model.</returns>
         private static IEntityType? GetEntityTypeMetadata(string entityTypeName, SocialMediaContext context)
         {
             if (string.IsNullOrEmpty(entityTypeName))

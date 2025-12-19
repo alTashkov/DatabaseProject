@@ -8,7 +8,7 @@ namespace DatabaseProject.Helpers
         {
             var parameter = Expression.Parameter(typeof(T), "x");
 
-            // Split by OR first, then AND (basic precedence handling)
+            // Split by OR first, then AND
             var orGroups = filter.Split(new[] { "OR" }, StringSplitOptions.RemoveEmptyEntries);
 
             Expression? finalExpr = null;
