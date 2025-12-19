@@ -88,7 +88,7 @@ DatabaseProject/
 ## ⚙️ Configuration
 
 ### Database Connection String
-The application will require a database connection string. This is defined in the `app.config` file within the `DatabaseProject` directory.
+The application will require a database connection string. It is defined in the `app.config` file within the `DatabaseProject` directory:
 
 ```xml
 <configuration>
