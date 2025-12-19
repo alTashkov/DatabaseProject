@@ -1,5 +1,4 @@
-﻿
-namespace DatabaseProject.Interfaces
+﻿namespace DatabaseProject.Interfaces
 {
     /// <summary>
     /// Provides methods for inserting data in bulk to the database.

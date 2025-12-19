@@ -1,5 +1,4 @@
-﻿using DatabaseProject.Services;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace DatabaseProject.Interfaces
 {
@@ -7,7 +6,7 @@ namespace DatabaseProject.Interfaces
     /// Provides methods for outputting data from the database.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IBulkOutputter<T> where T : class
+    public interface IBulkExporter<T> where T : class
     {
         /// <summary>
         /// Outputs filtered data from the database to a file.

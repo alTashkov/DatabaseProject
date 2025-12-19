@@ -42,7 +42,7 @@ namespace DatabaseProject.Helpers
                         {
                             var builtFilter = buildFilterMethod.Invoke(null, new object[] { inputFilter });
 
-                            var outputterType = typeof(IBulkOutputter<>).MakeGenericType(clrType);
+                            var outputterType = typeof(IBulkExporter<>).MakeGenericType(clrType);
                             var bulkOutputService = scope.Resolve(outputterType);
 
                             var method = typeof(DataProcessor).GetMethod("Read")!.MakeGenericMethod(clrType);
